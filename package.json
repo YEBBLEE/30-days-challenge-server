@@ -1,0 +1,24 @@
+{
+  "name": "30-days-challenge-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YEBBLEE/30-days-challenge-server.git"
+  },
+  "author": "YEBBLEE",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YEBBLEE/30-days-challenge-server/issues"
+  },
+  "homepage": "https://github.com/YEBBLEE/30-days-challenge-server#readme"
+}
