@@ -57,7 +57,6 @@ router.post('/',(req,res) => {
 
 //PUT /challenges/:id
 router.put('/:id',(req,res) => {
-    
     const id = req.params.id;
     const { title, nickname } = req.body;
 
@@ -74,5 +73,12 @@ router.put('/:id',(req,res) => {
         });
     }
 });
+
+//DELETE /challenges/:id
+router.delete('/:id',(req,res) => {
+    const id = req.params.id;
+    challenges = challenges.filter((challenge) => challenge.id !== id);
+    res.sendStatus(204);
+})
 
 export default router;
