@@ -7,7 +7,7 @@ const router = express.Router();
 //임시 데이터
 let challenges = [
     {
-        id:1,
+        id: '1',
         title: '😎 1일 1 개발 블로그 포스팅',
         days: initDays(),
         startDate: date.setStartDate(),
@@ -16,7 +16,7 @@ let challenges = [
         nickname: 'YEBIN'
     },
     {
-        id:2,
+        id: '2',
         title: '🧎‍♀️🌟매일 아침 10분 스트레칭',
         days: initDays(),
         startDate: date.setStartDate(),
@@ -52,6 +52,27 @@ router.post('/',(req,res) => {
 
     challenges = [challenge, ...challenges];
     res.status(201).json(challenge);
+});
+
+
+//PUT /challenges/:id
+router.put('/:id',(req,res) => {
+    
+    const id = req.params.id;
+    const { title, nickname } = req.body;
+
+    const challenge = challenges.find((challenge) => { 
+        return challenge.id === id && challenge.nickname === nickname
+    });
+
+    if(challenge) {
+        challenge.title = title;
+        res.status(200).json(challenge);
+    }else {
+        res.status(404).json({
+            message : "can't modify Challenge Title!"
+        });
+    }
 });
 
 export default router;
