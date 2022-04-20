@@ -1,6 +1,6 @@
 export class Day {
     constructor(number, isChecked) {
-        this.number = number;
+        this.number = number.toString();
         this.isChecked = isChecked;
     }
 }
