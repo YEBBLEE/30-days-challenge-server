@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import challengesRouter from './router/challenges.js';
 
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 console.log('app!');
 
