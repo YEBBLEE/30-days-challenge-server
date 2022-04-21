@@ -13,6 +13,7 @@ let challenges = [
         startDate: date.setStartDate(),
         endDate: date.setEndDate(),
         createdAt: new Date().toString(),
+        isProgress: true,
         nickname: 'YEBIN'
     },
     {
@@ -22,6 +23,7 @@ let challenges = [
         startDate: date.setStartDate(),
         endDate: date.setEndDate(),
         createdAt: new Date().toString(),
+        isProgress: true,
         nickname: 'YEBIN'
     }
 ];
@@ -47,6 +49,7 @@ router.post('/',(req,res) => {
         startDate: date.setStartDate(),
         endDate: date.setEndDate(),
         createdAt: new Date(),
+        isProgress: true,
         nickname
     };
 
