@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import challengesRouter from './router/challenges.js';
-
+import authRouter from './router/auth.js';
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(cors());
 console.log('app!');
 
 app.use('/challenges',challengesRouter);
+app.use('/auth',authRouter);
 
 app.use((req,res,next) => {
     res.sendStatus(404);
