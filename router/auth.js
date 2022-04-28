@@ -1,11 +1,13 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const router = express.Router();
 
-const secret = process.env[JWT_SECRET];
-const expiresIn = process.env[JWT_EXPIRES_SEC];
+const secret = process.env.JWT_SECRET;
+const expiresIn = process.env.JWT_EXPIRES_SEC;
 
 
 //임의의 사용자 데이터
