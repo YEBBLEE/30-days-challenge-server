@@ -1,76 +1,51 @@
-import { initDays } from '../class/day.js';
-import * as date from '../common/date.js';
+import * as challengeRepo from '../data/challenges.js';
 
-//임시 데이터
-export let challenges = [
-    {
-        id: '1',
-        title: '😎 1일 1 개발 블로그 포스팅',
-        days: { id: '1', days: initDays() },
-        startDate: date.setStartDate(),
-        endDate: date.setEndDate(),
-        createdAt: new Date().toString(),
-        isProgress: true,
-        nickname: 'YEBIN'
-    },
-    {
-        id: '2',
-        title: '🧎‍♀️🌟매일 아침 10분 스트레칭',
-        days: { id: '2', days: initDays() },
-        startDate: date.setStartDate(),
-        endDate: date.setEndDate(),
-        createdAt: new Date().toString(),
-        isProgress: true,
-        nickname: 'YEBIN'
-    }
-];
+export function getChallenges(req, res) {
+    const nickname = req.query.nickname;
+    const result = challengeRepo.getByNickname(nickname);
 
-export function getByNickname(nickname) {
-    const challengesByNickname = challenges.filter((challenge) => {
-        challenge.nickname === nickname
-    });
-    return challengesByNickname ? challengesByNickname : [];
+    res.status(200).json(result);
 }
 
-export function create(title, nickname) {
-    const challenge = {
-        id: Date.now().toString(),
-        title,
-        days: { id: Date.now().toString(), days: initDays()},
-        startDate: date.setStartDate(),
-        endDate: date.setEndDate(),
-        createdAt: new Date(),
-        isProgress: true,
-        nickname
-    };
-    challenges = [challenge, ...challenges];
-    return challenge;
+export function createChallenge(req, res) {
+    const { title, nickname } = req.body;
+    const challenge = challengeRepo.create(title, nickname);
+
+    res.status(201).json(challenge);
 }
 
-export function updateTitle(id, title, nickname) {
-    const challenge = challenges.find((challenge) => {
-        return challenge.id === id && challenge.nickname === nickname
-    });
+export function modifyTitle(req, res) {
+    const id = req.params.id;
+    const { title, nickname } = req.body;
+
+    const challenge = challengeRepo.updateTitle(id,title,nickname);
 
     if(challenge) {
-        challenge.title = title;
+        res.status(200).json(challenge);
+    }else {
+        res.status(404).json({
+            message : "can't modify Challenge Title!"
+        });
     }
-    return challenge;
 }
 
-export function updateDays(id,number,isChecked) {
-    const challenge = challenges.find((challenge) => {
-        return challenge.days.id === id;
-    });
+export function modifyDayChecked(req, res) {
+    const id = req.params.id;
+    const {number,isChecked} = req.body;
 
+    const challenge = challengeRepo.updateDays(id,number,isChecked);
+    
     if(challenge) {
-        const day = challenge.days.days.find(day => day.number === number);
-        day.isChecked = isChecked;
+        res.status(200).json(challenge);
+    }else {
+        res.status(404).json({
+            message : "Can't Modify Challenge Day Checked!"
+        });
     }
-
-    return challenge;
 }
 
-export function remove(id) {
-    challenges = challenges.filter((challenge) => challenge.id !== id);
+export function deleteChallenge(req, res) {
+    const id = req.params.id;
+    challengeRepo.remove(id);
+    res.sendStatus(204);
 }
