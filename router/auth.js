@@ -14,7 +14,7 @@ const expiresIn = process.env.JWT_EXPIRES_SEC;
 let users = [
     {
         id:'1',
-        nickname:'yebin',
+        nickname:'YEBIN',
         password:'123',
         email:'yebb@gmail.com',
         url:'https://avatars.githubusercontent.com/u/68329482?s=40&v=4'
@@ -29,7 +29,7 @@ let users = [
 ]; 
 
 
-router.post('/signup',(req,res,next) => {
+router.post('/signup',(req,res) => {
     const {nickname, password, email, url} = req.body;
 
     const signedUser = users.find((user) => user.nickname === nickname);
@@ -60,9 +60,28 @@ router.post('/signup',(req,res,next) => {
 });
 
 
-router.post('/login',(req,res,next) => {
-    const {token, nickname, password } = req.body;
+router.post('/login',(req,res) => {
+    const { nickname, password } = req.body;
+    const user = users.find((user) => user.nickname === nickname);
 
+    if (!user) {
+        return res.status(403).json({message: `${nickname} is not exist!`});
+    }else {
+        const i = users.indexOf(user);
+        const hashedPwd = users[i].password;
+        const pwdResult = bcrypt.compareSync(password,hashedPwd);
+        const isCorrectPwd = pwdResult ? true : false;
+        if (isCorrectPwd === false) {
+            return res.status(403).json({message : `Wrong Password!`});
+        }
+
+        const token = jwt.sign(
+            {nickname: nickname},
+            secret,
+            {expiresIn: expiresIn}
+        );
+        return res.status(200).json({token,nickname});
+    }
 });
 
 
