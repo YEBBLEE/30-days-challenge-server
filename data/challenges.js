@@ -26,9 +26,7 @@ export let challenges = [
 ];
 
 export function getByNickname(nickname) {
-    const challengesByNickname = challenges.filter((challenge) => {
-        challenge.nickname === nickname
-    });
+    let challengesByNickname = challenges.filter((challenge) => challenge.nickname === nickname);
     return challengesByNickname ? challengesByNickname : [];
 }
 
