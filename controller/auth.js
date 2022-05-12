@@ -1,11 +1,11 @@
 import * as userRepo from '../data/auth.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import { config } from '../config.js';
 
-dotenv.config();
-const secret = process.env.JWT_SECRET;
-const expiresIn = process.env.JWT_EXPIRES_SEC;
+const secret = config.jwt.secretKey;
+const expiresIn = config.jwt.expireInSec;
+const bcryptSaltRounds = config.bcrypt.saltRounds;
 
 export function signup(req, res) {
     const { nickname, password, email, url } = req.body;
@@ -15,7 +15,7 @@ export function signup(req, res) {
     }
 
     //비번 암호화
-    const hashed = bcrypt.hashSync(password,10);
+    const hashed = bcrypt.hashSync(password,bcryptSaltRounds);
     const id = userRepo.createUser({
         nickname,
         password: hashed,
