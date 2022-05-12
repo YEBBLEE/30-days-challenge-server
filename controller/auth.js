@@ -7,16 +7,16 @@ const secret = config.jwt.secretKey;
 const expiresIn = config.jwt.expireInSec;
 const bcryptSaltRounds = config.bcrypt.saltRounds;
 
-export function signup(req, res) {
+export async function signup(req, res) {
     const { nickname, password, email, url } = req.body;
-    const signedUser = userRepo.findByNickname(nickname);
+    const signedUser = await userRepo.findByNickname(nickname);
     if(signedUser) {
         return res.status(409).json({message : `${nickname} is already exist`});
     }
 
     //비번 암호화
-    const hashed = bcrypt.hashSync(password,bcryptSaltRounds);
-    const id = userRepo.createUser({
+    const hashed = await bcrypt.hash(password,bcryptSaltRounds);
+    const id = await userRepo.createUser({
         nickname,
         password: hashed,
         email,
@@ -32,13 +32,13 @@ export function signup(req, res) {
     return res.status(200).json({token,nickname});
 }
 
-export function login(req, res) {
+export async function login(req, res) {
     const { nickname, password } = req.body;
-    const user = userRepo.findByNickname(nickname);
+    const user = await userRepo.findByNickname(nickname);
     if(!user) {
         return res.status(403).json({message: `${nickname} is not exist!`});
     }
-    const isCorrectPassword = bcrypt.compareSync(password, user.password);
+    const isCorrectPassword = await bcrypt.compare(password, user.password);
     if(!isCorrectPassword) {
         return res.status(403).json({message : `Wrong Password!`});
     }

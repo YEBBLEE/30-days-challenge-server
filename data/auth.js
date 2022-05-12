@@ -1,26 +1,26 @@
-//임의의 사용자 데이터
-export let users = [
-    {
-        id:'1',
-        nickname:'YEBIN',
-        password:'123',
-        email:'yebb@gmail.com',
-        url:'https://avatars.githubusercontent.com/u/68329482?s=40&v=4'
-    },
-    {
-        id:'2',
-        nickname:'choi',
-        password:'123',
-        email:'choi@gmail.com',
-        url:''
-    }
-]; 
-export function findByNickname(nickname) {
-    return users.find((user) => user.nickname === nickname);
+import { db } from '../db/database.js';
+
+export async function findByNickname(nickname) {
+    return db
+        .execute(
+            'SELECT * FROM users WHERE nickname=?',
+            [nickname]
+        )
+        .then((result) => {
+            console.log(`[Result] findByNickname : ${JSON.stringify(result[0][0])}`);
+            return result[0][0];
+        });
 }
 
-export function createUser(user) {
-    const newUser = {...user, id: Date.now().toString()}
-    users.push(newUser);
-    return newUser.id;
+export async function createUser(user) {
+    const {nickname, password, email, url} = user;
+    return db
+        .execute(
+            'INSERT INTO users (nickname, password, email, url) VALUES (?,?,?,?)',
+            [nickname, password, email, url]
+        )
+        .then((result) => {
+            console.log(`[Result] created User Id : ${result[0].insertId}`);
+            return result[0].insertId
+        });
 }
