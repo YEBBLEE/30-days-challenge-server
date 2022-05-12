@@ -2,12 +2,19 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+function required(key, defaultValue = undefined) {
+  const value = process.env[key] || defaultValue;
+  if (value == null) {
+    throw new Error(`process.env.${key} is null `);
+  }
+  return value;
+}
 export const config = {
   jwt: {
-    secretKey: process.env.JWT_SECRET,
-    expireInSec: parseInt(process.env.JWT_EXPIRES_SEC)
+    secretKey: required('JWT_SECRET'),
+    expireInSec: parseInt(required('JWT_EXPIRES_SEC', 86400))
   },
   bcrypt : {
-    saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS)
+    saltRounds: parseInt(required('BCRYPT_SALT_ROUNDS',12))
   }
 }
