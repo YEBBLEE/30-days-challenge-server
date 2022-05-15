@@ -6,6 +6,7 @@ const pool = mysql.createPool({
   user: config.db.user,
   database: config.db.databse,
   password: config.db.password,
+  multipleStatements: true
 });
 
 export const db = pool.promise();
