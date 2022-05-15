@@ -9,5 +9,5 @@ export function setEndDate() {
     let endStr = date.toLocaleDateString();
     return endStr.substring(0, endStr.lastIndexOf('.'));
 }
-
+// 필요없어서삭제될 예정
 
