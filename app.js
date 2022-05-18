@@ -8,9 +8,9 @@ import https from 'https';
 import fs from 'fs';
 
 const hostname = 'yebb-whybbb.com';
-var privateKey = fs.readFileSync(`/etc/letsencrypt/live/${hostname}/privkey.pem`);
-var certificate = fs.readFileSync(`/etc/letsencrypt/live/${hostname}/cert.pem`);
-var ca = fs.readFileSync(`/etc/letsencrypt/live/${hostname}/chain.pem`);
+const privateKey = fs.readFileSync(`/etc/letsencrypt/live/${hostname}/privkey.pem`);
+const certificate = fs.readFileSync(`/etc/letsencrypt/live/${hostname}/cert.pem`);
+const ca = fs.readFileSync(`/etc/letsencrypt/live/${hostname}/chain.pem`);
 const credentials = { key: privateKey, cert: certificate, ca: ca };
 
 const app = express();
