@@ -5,9 +5,7 @@ import * as userRepo from '../data/auth.js';
 const AUTH_ERROR = { message: 'Authentication Error'};
 
 export const isAuth = async (req,res,next) => {
-  console.log(req.headers);
   const authHeader = await req.get('Authorization');
-  console.log(`authHeader ${authHeader}`);
   if(!(authHeader && authHeader.startsWith('Bearer '))) {
     return res.status(401).json(AUTH_ERROR);
   }
@@ -19,7 +17,6 @@ export const isAuth = async (req,res,next) => {
     config.jwt.secretKey,
     async (error, decoded) => {
       if(error) {
-        console.log(error);
         return res.status(401).json(AUTH_ERROR);
       }
       const user = await userRepo.findById(decoded.id);
