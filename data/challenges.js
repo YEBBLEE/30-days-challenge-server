@@ -1,6 +1,7 @@
 import { Day, DaysInfo } from '../class/day.js';
 import { Challenge } from '../class/challenge.js';
 import { db } from '../db/database.js';
+import { setDate } from '../common/date.js';
 
 const ORDER_DESC = 'ORDER BY createdAt DESC';
 
@@ -34,12 +35,12 @@ export async function getByNickname(nickname) {
 
                 const id = chRow['id'];
                 const title = chRow['title'];
-                const startDate = chRow['startDate'];
-                const endDate = chRow['endDate'];
+                const startDate = setDate(chRow['startDate']);
+                const endDate = setDate(chRow['endDate']);
                 const createdAt = chRow['createdAt'];
 
                 const nowDate = new Date();
-                const isProgress = new Date(endDate) < nowDate ? false: true;
+                const isProgress = new Date(chRow['endDate']) < nowDate ? false: true;
                 const nickname = chRow['nickname'];
                 const challenge = new Challenge(id,title,daysInfo,startDate,endDate,createdAt,isProgress,nickname);
                 return challenge;
@@ -79,12 +80,12 @@ export async function getById(challengeId) {
 
                 const id = chRow['id'];
                 const title = chRow['title'];
-                const startDate = chRow['startDate'];
-                const endDate = chRow['endDate'];
+                const startDate = setDate(chRow['startDate']);
+                const endDate = setDate(chRow['endDate']);
                 const createdAt = chRow['createdAt'];
 
                 const nowDate = new Date();
-                const isProgress = new Date(endDate) < nowDate ? false: true;
+                const isProgress = new Date(chRow['endDate']) < nowDate ? false: true;
                 const nickname = chRow['nickname'];
                 const challenge = new Challenge(id,title,daysInfo,startDate,endDate,createdAt,isProgress,nickname);
                 return challenge;
