@@ -2,6 +2,8 @@ import { Day, DaysInfo } from '../class/day.js';
 import { Challenge } from '../class/challenge.js';
 import { db } from '../db/database.js';
 
+const ORDER_DESC = 'ORDER BY createdAt DESC';
+
 export async function getByNickname(nickname) {
     return db
         .execute(
@@ -16,7 +18,7 @@ export async function getByNickname(nickname) {
             FROM challenges as ch 
             LEFT JOIN users as us ON ch.userId=us.id
             JOIN  days as dy ON ch.daysId=dy.id
-            WHERE nickname=?`,[nickname]
+            WHERE nickname=? ${ORDER_DESC}`,[nickname]
         ).then((result) => {
             console.log(`[Result] getByNickname Challenges`);
             const challengeRows = result[0];
@@ -106,7 +108,8 @@ export async function create(title, nickname) {
         console.log(`daysId : ${daysId}`);
 
         const startDate = new Date();
-        const endDate = new Date(); //todo: +30일
+        let endDate = new Date();
+        endDate.setDate(startDate.getDate()+30);
         const createdAt = new Date();
         const createChallengeResult 
             = await conn.query(`INSERT INTO challenges SET ?`,{title,startDate,endDate,createdAt,userId,daysId});
