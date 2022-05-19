@@ -2,6 +2,7 @@ import express from 'express';
 import * as challengeController from '../controller/challenges.js';
 import { body } from 'express-validator';
 import { validate } from '../middleware/validate.js';
+import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -14,18 +15,18 @@ const validateChallenge = [
 ];
 
 //GET /challenges?nickname=:nickname
-router.get('/',challengeController.getChallenges);
+router.get('/', isAuth, challengeController.getChallenges);
 
 //POST /challenges
-router.post('/', validateChallenge, challengeController.createChallenge);
+router.post('/', isAuth, validateChallenge, challengeController.createChallenge);
 
 //PUT /challenges/:id
-router.put('/:id', validateChallenge, challengeController.modifyTitle);
+router.put('/:id', isAuth, validateChallenge, challengeController.modifyTitle);
 
 //PUT /challenges/days/:id
-router.put('/days/:id',challengeController.modifyDayChecked);
+router.put('/days/:id', isAuth, challengeController.modifyDayChecked);
 
 //DELETE /challenges/:id
-router.delete('/:id',challengeController.deleteChallenge);
+router.delete('/:id', isAuth, challengeController.deleteChallenge);
 
 export default router;

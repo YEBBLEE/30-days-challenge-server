@@ -24,3 +24,12 @@ export async function createUser(user) {
             return result[0].insertId
         });
 }
+
+export async function findById(userId) {
+    return db
+        .execute(
+            'SELECT * FROM users WHERE id=?',
+            [userId]
+        )
+        .then((result) => result[0][0]);
+}
