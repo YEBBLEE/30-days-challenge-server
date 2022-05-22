@@ -8,8 +8,10 @@ const ORDER_DESC = 'ORDER BY createdAt DESC';
 export async function getByNickname(nickname) {
     return db
         .execute(
-            `SELECT ch.id, ch.title, ch.startDate, ch.endDate, ch.createdAt, ch.daysId, 
-            us.nickname, 
+            `SELECT ch.id, ch.title, 
+            date_format(ch.startDate, '%Y-%m-%d') as startDate, 
+            date_format(ch.endDate, '%Y-%m-%d') as endDate, 
+            ch.createdAt, ch.daysId, us.nickname, 
             dy.1, dy.2, dy.3, dy.4, dy.5, 
             dy.6, dy.7, dy.8, dy.9, dy.10, 
             dy.11, dy.12, dy.13, dy.14, dy.15, 
@@ -35,8 +37,8 @@ export async function getByNickname(nickname) {
 
                 const id = chRow['id'];
                 const title = chRow['title'];
-                const startDate = setDate(chRow['startDate']);
-                const endDate = setDate(chRow['endDate']);
+                const startDate = chRow['startDate'];
+                const endDate = chRow['endDate'];
                 const createdAt = chRow['createdAt'];
 
                 const nowDate = new Date();
@@ -53,8 +55,10 @@ export async function getByNickname(nickname) {
 export async function getById(challengeId) {
     return db
         .execute(
-            `SELECT ch.id, ch.title, ch.startDate, ch.endDate, ch.createdAt, ch.daysId, 
-            us.nickname, 
+            `SELECT ch.id, ch.title, 
+            date_format(ch.startDate, '%Y-%m-%d') as startDate, 
+            date_format(ch.endDate, '%Y-%m-%d') as endDate, 
+            ch.createdAt, ch.daysId, us.nickname, 
             dy.1, dy.2, dy.3, dy.4, dy.5, 
             dy.6, dy.7, dy.8, dy.9, dy.10, 
             dy.11, dy.12, dy.13, dy.14, dy.15, 
@@ -80,8 +84,8 @@ export async function getById(challengeId) {
 
                 const id = chRow['id'];
                 const title = chRow['title'];
-                const startDate = setDate(chRow['startDate']);
-                const endDate = setDate(chRow['endDate']);
+                const startDate = chRow['startDate'];
+                const endDate = chRow['endDate'];
                 const createdAt = chRow['createdAt'];
 
                 const nowDate = new Date();
